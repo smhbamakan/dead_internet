@@ -1,0 +1,16 @@
+# Supplementary code and data — revision R1
+
+Python 3.13; numpy, scipy, pandas, networkx, pandapower, SALib, matplotlib, cryptography versions: numpy 2.4.6 scipy 1.18.1 pandas 2.3.3 networkx 3.6.1 pandapower 3.5.6 SALib 1.6.0 matplotlib 3.11.2 cryptography 50.0.1
+
+| Step | Command | Output |
+|---|---|---|
+| Power-flow table, main paired experiment (4,800 runs) | python3 -c "import sys; sys.path.insert(0,'code'); import abm5 as M; M.main()" | out5/main.csv |
+| Spoofed / noisy consistency channel | ... M.attack() | out5/attack.csv |
+| Robustness (networks, credulity, mapping, EV share) | ... M.robust() | out5/robust.csv |
+| Threshold sweeps (Pareto) | ... M.pareto() | out5/pareto.csv |
+| Sobol (512 base samples, 8,192 evaluations) | python3 -I code/sobol5.py 512 | out5/sobol5.json |
+| Theory: thresholds with q, welfare, delegation depth, folds, Sybil test, worked graph, Table 4 trace, overhead | python3 -I code/theory5.py; python3 -I code/half5.py | out5/theory5.json, out5/half5.json |
+| Paired statistics, direct critical fraction | python3 -I code/stats5.py | out5/stats5.json |
+| Figures | python3 -I code/figs5.py | fig5/*.png, *.pdf |
+
+Seeds: replication r at bot share s uses numpy default_rng(10000*r + int(1000*s) + 7); all regimes of a replication share the network, bot placement and seeds. Sobol: SALib sobol sampler seed 11, analysis seed 5. Feeder: pandapower create_cigre_network_lv(), residential loads R1, R11, R15–R18, transformer R0-R1 (0.5 MVA). Thermal model: IEC 60076-7 difference equations, parameters in abm5.thermal().
